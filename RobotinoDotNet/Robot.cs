@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using rec.robotino.api2;
+using System.Collections.Generic;
 
 namespace RobotinoDotNet
 {
@@ -10,6 +11,7 @@ namespace RobotinoDotNet
         protected readonly Com _com;
         protected readonly OmniDrive _omniDrive;
         protected readonly Camera _camera;
+        protected readonly List<MyDistanceSensor> _listDistanceSensor = new List<MyDistanceSensor>();
 
         public delegate void ImageReceivedEventHandler(Robot sender, Image img);
 
@@ -18,8 +20,15 @@ namespace RobotinoDotNet
             _omniDrive = new OmniDrive();
             _camera = new MyCamera(this);
 
+            for (byte i = 0; i < 9; i++)
+            {
+                _listDistanceSensor.Add(new MyDistanceSensor(i));
+            }
+
             _omniDrive.setComId(_com.id());
             _camera.setComId(_com.id());
+
+
 
         }
 
@@ -46,6 +55,11 @@ namespace RobotinoDotNet
            _omniDrive.setVelocity(x, y, h);
             System.Threading.Thread.Sleep(10);
            _omniDrive.setVelocity(0, 0, 0);
+        }
+
+        public float DistanceSensorStatus(byte i)
+        {
+            return _listDistanceSensor[i].Distance;
         }
 
         private class MyCom : Com
@@ -91,6 +105,22 @@ namespace RobotinoDotNet
             }
         }
 
+        public class MyDistanceSensor : DistanceSensor
+        {
+            private float _distance;
+
+            public float Distance => _distance;
+
+            public MyDistanceSensor(byte sensorNumber)
+            {
+                setSensorNumber(sensorNumber);
+            }
+
+            public override void distanceChangedEvent(float distance)
+            {
+                _distance = distance;
+            }
+        }
     }
 
 }

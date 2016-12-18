@@ -42,8 +42,22 @@ namespace RobotinoDotNet
 
         }
 
+        private void progressBar1_Click(object sender, EventArgs e)
+        {
+
+        }
+
         void Run()
         {
+            for (byte i = 0; i < 9; i++)
+                Console.Write(robot.DistanceSensorStatus(i)+" ");
+
+            Console.WriteLine();
+
+
+
+
+
             float s = 1f, rs = -1f;
 
             if (joystick.getStatusButton("1"))
