@@ -49,11 +49,20 @@ namespace RobotinoDotNet
 
         public void StartPollDevice(int interval)
         {
+            dev.Read(devOut);
+            for (int i = 0; i < 9; i++)
+            {
+                if (devOut[i] != 0) break;
+                throw new ArgumentException("device is not joystick");
+            }
+
             spinTimer = new System.Timers.Timer();
             spinTimer.Elapsed += new System.Timers.ElapsedEventHandler(PullDevise);
             spinTimer.Interval = interval;
             spinTimer.Enabled = true;
 
+            
+            
             void PullDevise(object obj, System.Timers.ElapsedEventArgs e)
             {
                 dev.Read(devOut);
@@ -62,6 +71,22 @@ namespace RobotinoDotNet
 
         public void StartPollDevice(int interval, run Run)
         {
+            /*
+            dev.Read(devOut);
+            bool trigger = true;
+            for (int i = 0; i < 9; i++)
+            {
+                if (devOut[i] != 0) {
+                    trigger = false;
+                    break;
+                }
+
+            }
+            if (trigger)
+            {
+                throw new ArgumentException("device is not joystick");                
+            }
+            */
             spinTimer = new System.Timers.Timer();
             spinTimer.Elapsed += new System.Timers.ElapsedEventHandler(PullDevise);
             spinTimer.Interval = interval;
