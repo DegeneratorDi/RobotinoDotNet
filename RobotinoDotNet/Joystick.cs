@@ -43,6 +43,10 @@ namespace RobotinoDotNet
 
         public void ConnectDevise(int num)
         {
+            //исправить
+           // Console.Write("HID dev num: ");
+            //num = int.Parse(Console.ReadLine());
+            //
             dev = new HIDDev();
             dev.Open(devs[num]);
         }
@@ -50,12 +54,7 @@ namespace RobotinoDotNet
         public void StartPollDevice(int interval)
         {
             dev.Read(devOut);
-            for (int i = 0; i < 9; i++)
-            {
-                if (devOut[i] != 0) break;
-                throw new ArgumentException("device is not joystick");
-            }
-
+            
             spinTimer = new System.Timers.Timer();
             spinTimer.Elapsed += new System.Timers.ElapsedEventHandler(PullDevise);
             spinTimer.Interval = interval;

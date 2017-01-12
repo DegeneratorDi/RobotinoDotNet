@@ -36,6 +36,10 @@ namespace RobotinoDotNet
 
         public void connect(String hostname, bool block)
         {
+            //исправить
+            //Console.Write("Hostname: ");
+           // hostname = Console.ReadLine();
+            //
 
             Console.WriteLine("Connecting...");
             _com.setAddress(hostname);
